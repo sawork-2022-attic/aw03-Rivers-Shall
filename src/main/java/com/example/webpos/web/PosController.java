@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class PosController {
@@ -19,9 +20,41 @@ public class PosController {
 
     @GetMapping("/")
     public String pos(Model model) {
-        posService.add("PD1",2);
         model.addAttribute("products", posService.products());
         model.addAttribute("cart", posService.getCart());
         return "index";
+    }
+
+    @GetMapping("/remove/{id}")
+    public String remove(@PathVariable("id")String productId, Model model) {
+        posService.remove(productId);
+        model.addAttribute("products", posService.products());
+        model.addAttribute("cart", posService.getCart());
+        return "redirect:/";
+    }
+
+    @GetMapping("/add/{id}")
+    public String add(@PathVariable("id")String productId, Model model) {
+        posService.add(productId, 1);
+        model.addAttribute("products", posService.products());
+        model.addAttribute("cart", posService.getCart());
+        return "redirect:/";
+    }
+
+    @GetMapping("/reduce/{id}")
+    public String reduce(@PathVariable("id")String productId, Model model) {
+        System.out.println("GET /reduce/" + productId);
+        posService.reduce(productId);
+        model.addAttribute("products", posService.products());
+        model.addAttribute("cart", posService.getCart());
+        return "redirect:/";
+    }
+
+    @GetMapping("/empty")
+    public String empty(Model model) {
+        posService.checkout(posService.getCart());
+        model.addAttribute("products", posService.products());
+        model.addAttribute("cart", posService.getCart());
+        return "redirect:/";
     }
 }

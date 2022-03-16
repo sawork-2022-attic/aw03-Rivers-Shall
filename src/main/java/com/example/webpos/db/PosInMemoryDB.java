@@ -11,7 +11,7 @@ import java.util.List;
 public class PosInMemoryDB implements PosDB {
     private List<Product> products = new ArrayList<>();
 
-    private Cart cart;
+    private Cart cart = new Cart();
 
     @Override
     public List<Product> getProducts() {

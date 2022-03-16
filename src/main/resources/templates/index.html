@@ -34,6 +34,26 @@
     <!-- custom style -->
 </head>
 <body>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Charge</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <img src="/images/qrcode.png"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <a th:href="@{/empty}" type="button" class="btn btn-primary">Done</a>
+            </div>
+        </div>
+    </div>
+</div>
 <section class="header-main">
     <div class="container">
         <div class="row align-items-center">
@@ -114,9 +134,9 @@
 		<figcaption class="info-wrap">
 			<a href="#" class="title"><span th:text="${product.name}"></span></a>
 			<div class="action-wrap">
-				<a href="#" class="btn btn-primary btn-sm float-right"> <i class="fa fa-cart-plus"></i> Add </a>
+				<a th:href="@{/add/{id}(id=${product.id})}" class="btn btn-primary btn-sm float-right"> <i class="fa fa-cart-plus"></i> Add </a>
 				<div class="price-wrap h5">
-					<span class="price-new">$1280</span>
+                    <span class="price-new"><span th:text="${product.price}"></span></span>
 				</div> <!-- price-wrap.// -->
 			</div> <!-- action-wrap -->
 		</figcaption>
@@ -152,15 +172,15 @@
 	</td>
 	<td class="text-center"> 
 		<div class="m-btn-group m-btn-group--pill btn-group mr-2" role="group" aria-label="...">
-																		<button type="button"
+																		<a th:href="@{/reduce/{id}(id=${item.product.id})}"
                                                                                 class="m-btn btn btn-default"><i
-                                                                                class="fa fa-minus"></i></button>
+                                                                                class="fa fa-minus"></i></a>
 																		<button type="button"
                                                                                 class="m-btn btn btn-default"
                                                                                 disabled><span th:text="${item.quantity}"></span></button>
-																		<button type="button"
+																		<a th:href="@{/add/{id}(id=${item.product.id})}"
                                                                                 class="m-btn btn btn-default"><i
-                                                                                class="fa fa-plus"></i></button>
+                                                                                class="fa fa-plus"></i></a>
 																	</div>
 	</td>
 	<td> 
@@ -169,7 +189,7 @@
 		</div> <!-- price-wrap .// -->
 	</td>
 	<td class="text-right"> 
-	<a href="" class="btn btn-outline-danger"> <i class="fa fa-trash"></i></a>
+	<a th:href="@{/remove/{id}(id=${item.product.id})}" class="btn btn-outline-danger"> <i class="fa fa-trash"></i></a>
 	</td>
 </tr>
 </tbody>
@@ -179,7 +199,7 @@
                 <div class="box">
                     <dl class="dlist-align">
                         <dt>Tax:</dt>
-                        <dd class="text-right">12%</dd>
+                        <dd class="text-right">0%</dd>
                     </dl>
                     <dl class="dlist-align">
                         <dt>Discount:</dt>
@@ -187,19 +207,19 @@
                     </dl>
                     <dl class="dlist-align">
                         <dt>Sub Total:</dt>
-                        <dd class="text-right">$215</dd>
+                        <dd class="text-right"><span th:text="${cart.total()}"></span></dd>
                     </dl>
                     <dl class="dlist-align">
                         <dt>Total:</dt>
-                        <dd class="text-right h4 b"> $215</dd>
+                        <dd class="text-right h4 b"><span th:text="${cart.total()}"></span></dd>
                     </dl>
                     <div class="row">
                         <div class="col-md-6">
-                            <a href="#" class="btn  btn-default btn-error btn-lg btn-block"><i
+                            <a th:href="@{/empty}" class="btn  btn-default btn-error btn-lg btn-block"><i
                                     class="fa fa-times-circle "></i> Cancel </a>
                         </div>
                         <div class="col-md-6">
-                            <a href="#" class="btn  btn-primary btn-lg btn-block"><i class="fa fa-shopping-bag"></i>
+                            <a href="#" class="btn  btn-primary btn-lg btn-block" data-toggle="modal" data-target="#exampleModalCenter"><i class="fa fa-shopping-bag"></i>
                                 Charge </a>
                         </div>
                     </div>
